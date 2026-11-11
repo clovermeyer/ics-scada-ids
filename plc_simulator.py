@@ -39,16 +39,15 @@ context = ModbusServerContext(devices=store, single=True)
 
 def physics_loop():
     """
-    A very simplified model of the physical process, running as its own
-    Modbus client against localhost -- the same way any real client would
-    talk to this PLC. This is a deliberate design choice: nothing in this
-    project reaches into the server's memory directly. Every actor, internal
-    or external, legitimate or not, only ever interacts with the plant
-    through Modbus reads and writes, exactly as it would on a real network.
-
-    It makes water level and flow rate drift realistically based on pump and
-    valve state, which is what makes range- and rate-based anomaly detection
-    meaningful instead of just comparing against a number that never moves.
+     A simplified model of the physical process. It runs as its own Modbus
+    client against localhost, the same way any real client talks to this PLC.
+    No component in this project accesses the server's memory directly: every
+    actor, internal or external, legitimate or not, interacts with the plant
+    only through Modbus reads and writes, as it would on a real network.
+ 
+    Water level and flow rate drift based on pump and valve state, so that
+    range-based and rate-based anomaly detection operate on values that
+    actually move rather than on a constant.
     """
     time.sleep(1.5)  # give the server a moment to come up
     client = ModbusTcpClient(config.PLC_HOST, port=config.PLC_PORT)
