@@ -1,18 +1,17 @@
 """
 plc_simulator.py
------------------
+----------------
 Simulates a small water-treatment PLC (Programmable Logic Controller) as a
 Modbus TCP server.
-
-A PLC is the piece of hardware that actually sits between the digital
-"setpoints" a human or software sets and the physical equipment -- pumps,
-valves, dosing systems -- that those setpoints control. In production these
-are purpose-built embedded controllers that often run for a decade or more
-without a reboot, which is a big part of why they're hard to patch the way
-an ordinary IT server is: you usually can't just take a water plant offline
-for Patch Tuesday.
-
-Run this FIRST, before hmi_client.py, attacker.py, or ids_monitor.py.
+ 
+A PLC is the hardware that sits between digital setpoints, set by a human or
+by software, and the physical equipment (pumps, valves, dosing systems) those
+setpoints control. In production these are purpose-built embedded controllers
+that often run for a decade or more without a reboot. This makes them
+difficult to patch the way an ordinary IT server is, since a water plant
+usually cannot be taken offline for routine patching.
+ 
+Start this first, before hmi_client.py, attacker.py, or ids_monitor.py.
 """
 import threading
 import time
