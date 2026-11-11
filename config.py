@@ -15,12 +15,12 @@ PLC_HOST = "127.0.0.1"
 PLC_PORT = 15502  # the Modbus TCP port every client (HMI, attacker, IDS) connects to
 
 # --- Register map -----------------------------------------------------
-# All five values live in Modbus "holding registers" (function codes 3 to
-# read, 6/16 to write). Real deployments often split read-only telemetry
-# (sensor readings) into "input registers" -- a protocol-level read-only
-# register type -- and keep only operator setpoints in holding registers.
-# This demo keeps everything in holding registers for simplicity; see
-# docs/CONCEPTS.md for why that's a simplification worth knowing about.
+# All five values live in Modbus "holding registers" (function code 3 to
+# read, 6/16 to write). Real deployments often place read-only telemetry
+# (sensor readings) in "input registers", a protocol-level read-only
+# register type, and keep only operator setpoints in holding registers.
+# This demo uses holding registers for everything for simplicity; see
+# docs/CONCEPTS.md for details on this simplification.
 REG_WATER_LEVEL = 0  # cm, sensor telemetry (updated by the physics loop)
 REG_FLOW_RATE = 1  # L/min, sensor telemetry (updated by the physics loop)
 REG_PUMP_STATUS = 2  # 0 = off, 1 = on -- operator setpoint
@@ -47,11 +47,10 @@ SAFE_RANGES = {
     REG_CHLORINE_PPM: (80, 120),
 }
 
-# Largest change the IDS will tolerate in a single polling interval before
-# flagging an "abrupt change" alert, even if the resulting value is still
-# technically in-range. This is what catches a fast, deliberate spike that a
-# static range check alone might miss if the attacker is slightly more
-# careful than Oldsmar's attacker was.
+# Largest change the IDS tolerates in a single polling interval before
+# raising an "abrupt change" alert, even if the resulting value is still
+# in range. This catches a fast, deliberate spike that a static range check
+# alone would miss.
 MAX_STEP_CHANGE = {
     REG_WATER_LEVEL: 150,
     REG_FLOW_RATE: 200,
@@ -60,21 +59,21 @@ MAX_STEP_CHANGE = {
     REG_CHLORINE_PPM: 30,
 }
 
-# Only these three are operator setpoints an external client should ever be
-# writing to -- water level and flow rate are telemetry the physics loop
-# updates internally, so they're excluded from source-authorization checks.
+# Only these three registers are operator setpoints that an external client
+# should write to. Water level and flow rate are telemetry updated
+# internally by the physics loop, so they are excluded from
+# source-authorization checks.
 SOURCE_CHECKED_REGISTERS = {REG_PUMP_STATUS, REG_VALVE_POSITION, REG_CHLORINE_PPM}
 
-# The only source name the IDS will treat as authorized to write to the
+# The only source name the IDS treats as authorized to write to the
 # registers above. In a real deployment this would be an asset inventory of
-# known engineering workstations/HMIs, usually matched by IP or MAC address
-# rather than a self-reported name -- see docs/CONCEPTS.md for why this demo
-# simplifies that too.
+# known engineering workstations and HMIs, typically matched by IP or MAC
+# address rather than a self-reported name; see docs/CONCEPTS.md.
 AUTHORIZED_SOURCES = {"HMI-01"}
 
 # Stand-in for what a passive network tap (a SPAN/mirror port feeding a
-# sensor like Dragos or Claroty) would observe on the wire: every write any
-# client sends, tagged with who sent it. See docs/CONCEPTS.md.
+# sensor such as Dragos or Claroty) would observe on the wire: every write
+# any client sends, tagged with its source. See docs/CONCEPTS.md.
 WRITE_LOG_PATH = "write_log.jsonl"
 ALERT_LOG_PATH = "alerts.log"
 
