@@ -1,28 +1,31 @@
 """
 attacker.py
-------------
-Simulates an unauthorized party issuing commands to the PLC. Run this AFTER
-plc_simulator.py (and ideally while hmi_client.py and ids_monitor.py are
-also running, so you can watch the IDS flag it live).
-
-Two scenarios, picked by command-line argument:
-
+-----------
+Simulates an unauthorized party issuing commands to the PLC. Requires
+plc_simulator.py to be running. For live detection output, run it alongside
+hmi_client.py and ids_monitor.py.
+ 
+Two scenarios, selected by command-line argument:
+ 
   python3 attacker.py oldsmar   (default) -- replays the real attack pattern
-  python3 attacker.py flood     -- a rapid write-flood / replay-style attack
-
---- The Oldsmar scenario, explained ---
+  python3 attacker.py flood     -- rapid write-flood / replay-style attack
+ 
+Oldsmar scenario
+----------------
 On February 5, 2021, an unknown intruder remotely accessed the control
 software at a water treatment plant in Oldsmar, Florida and changed the
-sodium hydroxide (lye) setpoint from its normal ~100 ppm to 11,100 ppm --
-over a hundred times the safe level. A plant operator watching the screen
-saw the setpoint change in real time and immediately reversed it before any
-contaminated water reached the distribution system. No automated system
-caught it first; a human happened to be looking at the right moment.
-
-That's the whole reason an automated monitor like ids_monitor.py is worth
-building: it does systematically, in milliseconds, what in the real
-incident depended on a person's attention and good timing.
+sodium hydroxide (lye) setpoint from its normal ~100 ppm to 11,100 ppm, over
+a hundred times the safe level. A plant operator watching the screen saw the
+setpoint change in real time and reversed it before any contaminated water
+reached the distribution system. No automated system detected the change;
+the operator happened to be looking at the right moment.
+ 
+An automated monitor such as ids_monitor.py performs this check
+continuously and within milliseconds, where the real incident depended on an
+operator's attention and timing.
 """
+
+
 import json
 import sys
 import time
