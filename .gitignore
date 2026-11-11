@@ -1,0 +1,18 @@
+# Runtime-generated files -- these are created when the scripts run and
+# shouldn't be tracked, since they're output, not source.
+alerts.log
+write_log.jsonl
+*.out
+
+# Python
+__pycache__/
+*.pyc
+venv/
+.venv/
+
+# OS cruft
+.DS_Store
+Thumbs.db
+
+# Personal prep notes -- useful to keep locally, not meant to be public
+docs/INTERVIEW_PREP.md

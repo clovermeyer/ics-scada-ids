@@ -1,8 +1,8 @@
-# Concepts behind this project
+# Design notes
 
-Read this once, properly -- this is the part that actually prepares you to
-talk about the project, not the code itself. The code is just the
-implementation of the ideas below.
+The code implements the ideas below; this file is the reasoning behind it --
+why Modbus behaves the way it does, what real incident this models, and why
+the detection logic is split the way it is.
 
 ## 1. What Modbus is, and why it matters
 
@@ -79,13 +79,11 @@ Real ICS security products -- Dragos, Claroty, Nozomi Networks, and others
 -- combine both of these approaches for exactly this reason: each one
 catches attacks the other would miss.
 
-## 4. Honest simplifications in this project (know these cold)
+## 4. Known simplifications and their real-world equivalents
 
-A few things are simplified for a project buildable in a sandboxed
-environment without special network privileges. Knowing exactly what was
-simplified, and why, is more impressive in an interview than pretending the
-project is production-grade -- it shows you understand the real
-architecture, not just this implementation of it.
+A few things are simplified here for a project buildable in a sandboxed
+environment without elevated network privileges. Each one is noted below
+along with what a production deployment would actually do instead.
 
 **The write log stands in for a passive network tap.** In a real
 deployment, network-based detection comes from a switch's SPAN/mirror port
@@ -130,6 +128,5 @@ aggressively blocks traffic risks causing the exact availability failure
 OT security is trying to avoid, which is why detection-and-alert is the
 dominant pattern in this field rather than automated prevention.
 
-If you remember one sentence from this whole file for an interview, make
-it that one -- it's the single idea that explains almost every other design
-choice here.
+This distinction -- availability over confidentiality -- is the single idea
+that explains most of the other design choices in this project.
