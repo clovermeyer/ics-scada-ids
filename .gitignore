@@ -1,5 +1,4 @@
-# Runtime-generated files -- these are created when the scripts run and
-# shouldn't be tracked, since they're output, not source.
+# Runtime-generated input 
 alerts.log
 write_log.jsonl
 *.out
@@ -14,5 +13,5 @@ venv/
 .DS_Store
 Thumbs.db
 
-# Personal prep notes -- useful to keep locally, not meant to be public
+#local notes
 docs/INTERVIEW_PREP.md
