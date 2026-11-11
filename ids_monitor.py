@@ -1,26 +1,26 @@
 """
 ids_monitor.py
-----------------
-The actual intrusion detection system. Run this AFTER plc_simulator.py, in
-its own terminal, alongside hmi_client.py. Then run attacker.py in a fourth
-terminal and watch this one react.
-
-This combines two detection strategies, deliberately, because real ICS
-monitoring tools use both and they catch different things:
-
+--------------
+Intrusion detection engine for the simulated water-treatment PLC. Start it
+after plc_simulator.py, alongside hmi_client.py. Run attacker.py in a
+separate terminal to generate alerts.
+ 
+Two detection strategies are combined, as in real ICS monitoring tools,
+because they catch different classes of activity:
+ 
 1. STATE-BASED detection: poll the PLC's current register values directly,
-   the same way any read-only Modbus client could, and check them against
-   known-safe ranges and against how much they've moved since the last poll.
-   This is what would have caught Oldsmar even with zero network visibility
-   -- it's exactly what the human operator was doing by watching the screen,
-   just automated and constant. See check_state_anomalies().
-
-2. NETWORK-BASED detection: watch who is issuing writes and to what, which
-   catches things state-based detection alone would miss -- for example, an
-   unauthorized source writing a value that happens to still be "in range."
-   See check_write_log_anomalies(). In production this comes from a passive
-   network tap; here it's simulated via write_log.jsonl -- see
-   docs/CONCEPTS.md for exactly why and what that tradeoff means.
+   as any read-only Modbus client could, and check them against known-safe
+   ranges and against how much they have moved since the last poll. This
+   would have caught the Oldsmar incident with no network visibility at all.
+   It automates what the human operator did by watching the screen. See
+   check_state_anomalies().
+ 
+2. NETWORK-BASED detection: observe who is issuing writes and to what. This
+   catches activity that state-based detection alone would miss, such as an
+   unauthorized source writing a value that is still in range. See
+   check_write_log_anomalies(). In production this data comes from a passive
+   network tap; here it is simulated via write_log.jsonl. See
+   docs/CONCEPTS.md for the tradeoffs.
 """
 import json
 import time
