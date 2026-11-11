@@ -54,14 +54,13 @@ REALERT_SECONDS = 5  # how often to re-remind about a still-ongoing condition
 def check_state_anomalies(current, previous, out_of_range_state):
     """
     Range and rate-of-change checks against live register values.
-
-    out_of_range_state tracks, per register, the value and time we last
-    alerted on so a value that's stuck outside its safe range doesn't fire a
-    fresh HIGH alert on every single poll -- it re-announces itself only if
-    the value changes or enough time passes. Most real monitoring tools do
-    some version of this; without it, one stuck sensor can bury everything
-    else in the alert feed, which is its own kind of security problem (a
-    real attacker could use alert fatigue as cover).
+ 
+    out_of_range_state tracks, per register, the value and time of the last
+    alert. This prevents a value stuck outside its safe range from firing a
+    new HIGH alert on every poll; it is re-reported only if the value changes
+    or REALERT_SECONDS have passed. Without this, a single stuck sensor can
+    flood the alert feed and obscure other activity, which an attacker could
+    exploit as cover.
     """
     now = time.time()
     for reg, value in current.items():
