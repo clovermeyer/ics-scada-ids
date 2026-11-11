@@ -1,20 +1,10 @@
 # ICS/SCADA Intrusion Detection Demo
 
-A simulated water-treatment control system, built to demonstrate and detect
-the same attack pattern used in the real February 2021 Oldsmar, Florida
-water treatment attack. Built around critical infrastructure protection:
-the PLC that controls physical plant equipment, a legitimate operator
-(HMI), an unauthorized attacker, and an intrusion detection system that
-watches for both of them.
+A simulated water-treatment control system that reproduces and detects the attack pattern used in the February 2021 Oldsmar, Florida water treatment incident. The project models a PLC controlling physical plant equipment, a legitimate operator (HMI), an unauthorized attacker, and an intrusion detection system (IDS) that monitors both.
 
-## Why this project
+## Background
 
-Most student cybersecurity projects target IT systems -- web apps,
-password databases, phishing. This one targets **operational technology
-(OT)**: the systems that run physical infrastructure -- water, power,
-manufacturing. It's a different threat model with different constraints
-(you usually can't just patch and reboot a water plant), and it's the
-specific lane that "critical infrastructure protection" refers to.
+This project targets operational technology (OT): the systems that run physical infrastructure such as water, power, and manufacturing. OT has a different threat model and different constraints than traditional IT. Systems often cannot be patched or rebooted without disrupting a physical process, and many industrial protocols were designed without authentication.
 
 ## Architecture
 
@@ -35,12 +25,7 @@ specific lane that "critical infrastructure protection" refers to.
 └───────────┘
 ```
 
-All four pieces are separate processes that only ever talk to each other
-over real Modbus TCP connections -- nothing reaches into another script's
-memory directly. That's deliberate: it's what makes this an actual network
-security demo rather than just a simulation with security-themed variable
-names.
-
+All four components run as separate processes and communicate only over real Modbus TCP connections. No component accesses another's memory directly, so the demo reflects an actual network security setup rather than a simulation with security-themed variable names.
 ## Setup
 
 ```bash
@@ -73,20 +58,20 @@ python3 attacker.py oldsmar
 python3 attacker.py flood
 ```
 
-Watch Terminal 2. You should see the HMI's normal traffic produce no
-alerts, and the attacker's traffic immediately trigger red `[HIGH]` and
-yellow `[MEDIUM]` alerts, written both to the console and to `alerts.log`.
+## Expected Behavior
+Normal HMI traffic produces no alerts. Attacker traffic triggers [HIGH] and [MEDIUM] alerts in the IDS terminal (Terminal 2), which are also written to alerts.log.
 
 ## Design notes
 
-See **`docs/CONCEPTS.md`** for the reasoning behind this: Modbus's lack of
-built-in authentication, the real incident the attack scenario is modeled
-on, why detection is split into two strategies, and the known
-simplifications versus a production deployment.
+See docs/CONCEPTS.md for details on:
 
+Modbus's lack of built-in authentication
+The real incident the attack scenario is modeled on
+Why detection is split into two strategies
+Known simplifications relative to a production deployment
 ## Files
 
-| File | What it does |
+| Files |
 |---|---|
 | `config.py` | Register map, safe ranges, authorized sources |
 | `plc_simulator.py` | The Modbus TCP server + the internal physics loop |
@@ -96,11 +81,7 @@ simplifications versus a production deployment.
 
 ## Possible extensions, if you want to go further
 
-- A live web dashboard (Flask + a simple chart) instead of console output
-- A third detection method: statistical anomaly detection (e.g. flag values
-  more than N standard deviations from a rolling mean) instead of fixed
-  thresholds
-- Real passive packet capture with `scapy` instead of the simulated write
-  log, if you have a sandbox that allows raw sockets
-- A second simulated process (e.g. a power substation) to show the
-  detection logic generalizes beyond one register map
+- Live web dashboard (Flask and a simple chart) in place of console output
+- Statistical anomaly detection (e.g., flagging values more than N standard deviations from a rolling mean) as a third detection method alongside fixed thresholds
+- Passive packet capture with scapy in place of the simulated write log, in environments that permit raw sockets
+- A second simulated process (e.g., a power substation) to show the detection logic generalizes beyond a single register map
