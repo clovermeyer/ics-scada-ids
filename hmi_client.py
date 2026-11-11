@@ -22,13 +22,13 @@ SOURCE_NAME = "HMI-01"
 
 def log_write(register, value):
     """
-    Append this write to the shared write log. In a real deployment, this
+   Append this write to the shared write log. In a real deployment, this
     log would be populated by a passive network tap (a switch SPAN/mirror
-    port feeding a sensor) parsing the source IP/MAC out of real Modbus TCP
-    frames -- not self-reported by the client. This demo has each client
-    report its own identity directly, because standing up raw packet
-    capture needs network privileges this environment doesn't grant. See
-    docs/CONCEPTS.md for the full explanation of that tradeoff.
+    port feeding a sensor) that parses the source IP/MAC from real Modbus
+    TCP frames rather than relying on the client to self-report. This demo
+    has each client report its own identity because raw packet capture
+    requires network privileges that are not available in all environments.
+    See docs/CONCEPTS.md for the full tradeoff.
     """
     entry = {
         "timestamp": datetime.now(timezone.utc).isoformat(),
