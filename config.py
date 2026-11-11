@@ -2,13 +2,13 @@
 config.py
 ---------
 Central configuration for the ICS/SCADA security demo.
-
+ 
 In a real plant, values like these (safe operating ranges, which systems are
 authorized to issue commands) live in engineering and operations
-documentation, and increasingly in the policy file of whatever monitoring
-tool is watching the network. Centralizing them here -- separate from the
-PLC logic itself -- mirrors that split between "what the process does" and
-"what we consider safe/authorized for it to do."
+documentation and, increasingly, in the policy file of the network
+monitoring tool. They are kept here, separate from the PLC logic, to mirror
+the split between what the process does and what is considered safe and
+authorized for it to do.
 """
 
 PLC_HOST = "127.0.0.1"
