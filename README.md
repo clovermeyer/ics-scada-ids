@@ -88,11 +88,11 @@ simplifications versus a production deployment.
 
 | File | What it does |
 |---|---|
-| `config.py` | Register map, safe ranges, authorized sources -- all tunable settings in one place |
+| `config.py` | Register map, safe ranges, authorized sources |
 | `plc_simulator.py` | The Modbus TCP server + the internal physics loop |
 | `hmi_client.py` | Simulates the legitimate operator workstation |
 | `attacker.py` | Simulates an unauthorized intruder (two scenarios) |
-| `ids_monitor.py` | The detection engine -- the actual "project" |
+| `ids_monitor.py` | The detection engine |
 
 ## Possible extensions, if you want to go further
 
