@@ -29,8 +29,7 @@ def log_write(register, value):
     frames -- not self-reported by the client. This demo has each client
     report its own identity directly, because standing up raw packet
     capture needs network privileges this environment doesn't grant. See
-    docs/CONCEPTS.md for the full explanation -- it's worth understanding
-    this tradeoff, since it'll likely come up if you talk about this project.
+    docs/CONCEPTS.md for the full explanation of that tradeoff.
     """
     entry = {
         "timestamp": datetime.now(timezone.utc).isoformat(),

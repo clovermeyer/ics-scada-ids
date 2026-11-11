@@ -77,12 +77,12 @@ Watch Terminal 2. You should see the HMI's normal traffic produce no
 alerts, and the attacker's traffic immediately trigger red `[HIGH]` and
 yellow `[MEDIUM]` alerts, written both to the console and to `alerts.log`.
 
-## What to read next
+## Design notes
 
-- **`docs/CONCEPTS.md`** -- explains Modbus, the Oldsmar incident, and the
-  reasoning behind every detection rule and every design simplification.
-  Read this before an interview where this project might come up.
-- **`docs/INTERVIEW_PREP.md`** -- a short Q&A sheet for exactly that.
+See **`docs/CONCEPTS.md`** for the reasoning behind this: Modbus's lack of
+built-in authentication, the real incident the attack scenario is modeled
+on, why detection is split into two strategies, and the known
+simplifications versus a production deployment.
 
 ## Files
 
