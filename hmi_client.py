@@ -1,13 +1,12 @@
 """
 hmi_client.py
---------------
-Simulates the legitimate operator workstation -- the HMI (Human-Machine
-Interface) a real plant operator would use to watch the process and make
-small, normal adjustments. This is the "known good" traffic the IDS should
-learn to leave alone.
-
-Run this AFTER plc_simulator.py, in its own terminal. It runs until you
-stop it (Ctrl+C).
+-------------
+Simulates the legitimate operator workstation: the HMI (Human-Machine
+Interface) a plant operator uses to monitor the process and make small,
+routine adjustments. It generates the baseline traffic that the IDS should
+not alert on.
+ 
+Requires plc_simulator.py to be running. Runs until interrupted (Ctrl+C).
 """
 import json
 import random
